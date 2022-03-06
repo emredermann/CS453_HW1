@@ -40,8 +40,19 @@ jobs:
         run: |
           pip install build
           python -m build
-      - if: ${{ github.event_name == 'push' }}
-        name: Publish distribution 📦 to PyPI
-        uses: pypa/gh-action-pypi-publish@master
-        with:
-          password: ${{ secrets.PYPI_API_TOKEN }}
+
+        # Upload to TestPyPI
+      - name: Build and Upload to TestPyPI
+        run: |
+          python3 setup.py sdist bdist_wheel
+          python3 -m twine upload dist/*
+        env:
+          TWINE_USERNAME: __token__
+          TWINE_PASSWORD: ${{ secrets.PYPI_API_TOKEN }}
+          TWINE_REPOSITORY: testpypi
+
+      #- if: ${{ github.event_name == 'push' }}
+      #  name: Publish distribution 📦 to PyPI
+      #  uses: pypa/gh-action-pypi-publish@master
+      #  with:
+      #    password: ${{ secrets.PYPI_API_TOKEN }}
