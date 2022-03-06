@@ -28,18 +28,21 @@ jobs:
 
   Build-publish:
     runs-on: ubuntu-latest
-    on: push
+    needs: test
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v2
 
       # Runs a set of commands using the runners shell
-      - name: Run a multi-line script
+      - if: ${{ github.event_name == 'push' }}
+        name: Run a multi-line script
         run: |
+          
           pip install build
           python -m build
-      - name: Publish distribution 📦 to PyPI
+      - if: ${{ github.event_name == 'push' }}
+        name: Publish distribution 📦 to PyPI
         uses: pypa/gh-action-pypi-publish@master
         with:
           password: ${{ secrets.PYPI_API_TOKEN }}
