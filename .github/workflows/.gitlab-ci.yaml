@@ -40,12 +40,6 @@ jobs:
           pip install build
           python -m build
       - if: ${{ github.event_name == 'push' }}
-        name: Publish distribution 📦 to Test PyPI
-        uses: pypa/gh-action-pypi-publish@master
-        with:
-          password: ${{ secrets.TEST_PYPI_API_TOKEN }}
-          repository_url: https://test.pypi.org/legacy/
-      - if: ${{ github.event_name == 'push' }}
         name: Publish distribution 📦 to PyPI
         uses: pypa/gh-action-pypi-publish@master
         with:
