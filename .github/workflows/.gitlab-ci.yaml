@@ -6,6 +6,7 @@ on:
     branches: [ master, main ]
 
   workflow_dispatch:
+
 jobs:
   Test:
     strategy:
@@ -33,12 +34,11 @@ jobs:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v2
       # Runs a set of commands using the runners shell
-        name: Run a multi-line script
+      - name: Run a multi-line script
         run: |
           pip install build
           python -m build
-      - if: ${{ github.event_name == 'push' }}
-        name: Publish distribution 📦 to PyPI
+      - name: Publish distribution 📦 to PyPI
         uses: pypa/gh-action-pypi-publish@master
         with:
           password: ${{ secrets.PYPI_API_TOKEN }}
