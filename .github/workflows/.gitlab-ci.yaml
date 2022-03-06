@@ -39,19 +39,16 @@ jobs:
         name: Run a multi-line script
         run: |
           pip install build
-          pip install wheel
-          pip install twine
           python -m build
 
-        # Upload to TestPyPI
-      - name: Build and Upload to TestPyPI
-        run: |
-          python3 setup.py sdist bdist_wheel
-          python3 -m twine upload dist/*
-        env:
-          TWINE_USERNAME: __token__
-          TWINE_PASSWORD: ${{ secrets.PYPI_API_TOKEN }}
-          TWINE_REPOSITORY: testpypi
+      - name: Publish distribution 📦 to Test PyPI
+        with:
+          password: ${{ secrets.test_pypi_password }}
+          repository_url: https://test.pypi.org/legacy/
+
+      - name: Publish distribution 📦 to PyPI
+        with:
+          password: ${{ secrets.pypi_password }}
 
       #- if: ${{ github.event_name == 'push' }}
       #  name: Publish distribution 📦 to PyPI
