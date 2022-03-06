@@ -7,8 +7,6 @@ on:
 
   workflow_dispatch:
 
-name: github-test
-on: [push, pull_request]
 jobs:
   Test:
     strategy:
@@ -27,21 +25,20 @@ jobs:
           pip install pytest
           pytest
   
-  name: github-build
-  on: [push]
-    Build-publish:
-      runs-on: ubuntu-latest
-      needs: test
-      # Steps represent a sequence of tasks that will be executed as part of the job
-      steps:
-        # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
-        - uses: actions/checkout@v2
-        # Runs a set of commands using the runners shell
-        - name: Run a multi-line script
-          run: |
-            pip install build
-            python -m build
-        - name: Publish distribution 📦 to PyPI
-          uses: pypa/gh-action-pypi-publish@master
-          with:
-            password: ${{ secrets.PYPI_API_TOKEN }}
+
+  Build-publish:
+    runs-on: ubuntu-latest
+    needs: test
+    # Steps represent a sequence of tasks that will be executed as part of the job
+    steps:
+      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+      - uses: actions/checkout@v2
+      # Runs a set of commands using the runners shell
+      - name: Run a multi-line script
+        run: |
+          pip install build
+          python -m build
+      - name: Publish distribution 📦 to PyPI
+        uses: pypa/gh-action-pypi-publish@master
+        with:
+          password: ${{ secrets.PYPI_API_TOKEN }}
