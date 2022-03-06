@@ -39,6 +39,8 @@ jobs:
         name: Run a multi-line script
         run: |
           pip install build
+          pip install wheel
+          pip install twine
           python -m build
 
         # Upload to TestPyPI
