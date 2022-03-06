@@ -24,8 +24,7 @@ jobs:
           pip install -r requirements.txt
           pip install pytest
           pytest
-  - if: $CI_PIPELINE_SOURCE == "pull_request"
-    Build-publish:
+  Build-publish:
     runs-on: ubuntu-latest
     needs: test
      
