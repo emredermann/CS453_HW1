@@ -8,7 +8,6 @@ on:
   workflow_dispatch:
 
 jobs:
-  on: [ push,pull_request ]
   Test:  
     strategy:
       matrix:
@@ -26,7 +25,6 @@ jobs:
           pip install pytest
           pytest
   
-  on: [ push ]
   Build-publish:
     runs-on: ubuntu-latest
     needs: test
