@@ -3,13 +3,14 @@ on:
   push:
     branches: [ master, main ]
   pull_request:
-    branches: [ master, main ]
+    branches: [ main ]
 
   workflow_dispatch:
 
 jobs:
   Test:  
     strategy:
+      fail-fast: false
       matrix:
         python-version: [ "3.8", "3.9", "3.10" ]
     # The type of runner that the job will run on
@@ -37,7 +38,7 @@ jobs:
         run: |
           pip install build
           python -m build
-      - name: Publish distribution 📦 to PyPI
+      - name: Publish distribution to PyPI
         uses: pypa/gh-action-pypi-publish@master
         with:
           password: ${{ secrets.PYPI_API_TOKEN }}
