@@ -64,3 +64,7 @@ stages:
               pip install -r requirements.txt
               pip install pytest
               pytest
+
+stages:
+ - [A]
+ - [B]
