@@ -1,13 +1,14 @@
-name: CI
+name: CI-push
 on:
   push:
     branches: [ master, main ]
   pull_request:
     branches: [ master, main ]
+
   workflow_dispatch:
 
 jobs:
-  Test:  
+  Test:
     strategy:
       matrix:
         python-version: [ "3.8", "3.9", "3.10" ]
@@ -23,6 +24,7 @@ jobs:
           pip install -r requirements.txt
           pip install pytest
           pytest
+  
   Build-publish:
     runs-on: ubuntu-latest
     needs: test
@@ -31,11 +33,12 @@ jobs:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v2
       # Runs a set of commands using the runners shell
-      - name: Run a multi-line script
+        name: Run a multi-line script
         run: |
           pip install build
           python -m build
-      - name: Publish distribution 📦 to PyPI
+      - if: ${{ github.event_name == 'push' }}
+        name: Publish distribution 📦 to PyPI
         uses: pypa/gh-action-pypi-publish@master
         with:
           password: ${{ secrets.PYPI_API_TOKEN }}
