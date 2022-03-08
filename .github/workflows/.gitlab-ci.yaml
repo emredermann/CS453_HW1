@@ -7,8 +7,7 @@ on:
   workflow_dispatch:
 
 jobs:
-  Test:
-    continueOnError: true  
+  Test:  
     strategy:
       matrix:
         python-version: [ "3.8", "3.9", "3.10" ]
@@ -25,7 +24,6 @@ jobs:
           pip install pytest
           pytest
   Build-publish:
-    continueOnError: true                
     runs-on: ubuntu-latest
     needs: test
     # Steps represent a sequence of tasks that will be executed as part of the job
