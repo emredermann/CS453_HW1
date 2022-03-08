@@ -24,9 +24,6 @@ jobs:
           pip install pytest
           pytest
   Build-publish:
-    rules:
-      - if: '$CI_PIPELINE_SOURCE == "external_pull_request_event"'
-        when: always
     runs-on: ubuntu-latest
     needs: test
     # Steps represent a sequence of tasks that will be executed as part of the job
