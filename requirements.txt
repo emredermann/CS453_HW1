@@ -1,1 +1,5 @@
-requests
+attrs==21.4.0
+cmd2==2.4.0
+Mypackage==0.1
+pyperclip==1.8.2
+wcwidth==0.2.5
