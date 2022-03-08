@@ -24,6 +24,9 @@ jobs:
   Build-publish:
     runs-on: ubuntu-latest
     needs: test
+    rules:
+    - if: '$CI_PIPELINE_SOURCE == "external_pull_request_event"'
+      when: always
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
@@ -37,27 +40,3 @@ jobs:
         uses: pypa/gh-action-pypi-publish@master
         with:
           password: ${{ secrets.PYPI_API_TOKEN }}
-
-
-name: CI-Pull
-on:
-  pull_request:
-    branches: [ master, main ]
-  workflow_dispatch:
-jobs:
-  Test:  
-    strategy:
-      matrix:
-        python-version: [ "3.8", "3.9", "3.10" ]
-    # The type of runner that the job will run on
-    runs-on: ubuntu-latest
-    # Steps represent a sequence of tasks that will be executed as part of the job
-    steps:
-      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
-      - uses: actions/checkout@v2
-      # Runs a set of commands using the runners shell
-      - name: Run a multi-line script
-        run: |
-          pip install -r requirements.txt
-          pip install pytest
-          pytest
