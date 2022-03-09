@@ -4,6 +4,7 @@ on:
     branches: [ master, main ]
   pull_request:
     branches: [ master, main ]
+    types: [ labeled ]
   workflow_dispatch:
 
 jobs:
@@ -24,6 +25,7 @@ jobs:
           pip install pytest
           pytest
   Build-publish:
+    if: ${{ github.event.action == 'labeled' }}
     runs-on: ubuntu-latest
     needs: test
      
