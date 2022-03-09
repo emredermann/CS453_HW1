@@ -1,10 +1,10 @@
-name: CI-push
+name: CI
 on:
   push:
     branches: [ master, main ]
   pull_request:
     branches: [ master, main ]
-
+    types: [ labeled ]
   workflow_dispatch:
 
 jobs:
@@ -24,21 +24,21 @@ jobs:
           pip install -r requirements.txt
           pip install pytest
           pytest
-  
   Build-publish:
+    if: ${{ github.event.action == 'labeled' }}
     runs-on: ubuntu-latest
     needs: test
+
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v2
       # Runs a set of commands using the runners shell
-        name: Run a multi-line script
+      - name: Run a multi-line script
         run: |
           pip install build
           python -m build
-      - if: ${{ github.event_name == 'push' }}
-        name: Publish distribution 📦 to PyPI
+      - name: Publish distribution 📦 to PyPI
         uses: pypa/gh-action-pypi-publish@master
         with:
           password: ${{ secrets.PYPI_API_TOKEN }}
